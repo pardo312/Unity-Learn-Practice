@@ -249,6 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fea5bc56b22dfb4c926c99f31869fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  material: {fileID: 2100000, guid: 03e297eea34ab5946ad2e44340771002, type: 2}
+  numberOfPlayersToSpawn: 100000
 --- !u!1 &572414372
 GameObject:
   m_ObjectHideFlags: 0
