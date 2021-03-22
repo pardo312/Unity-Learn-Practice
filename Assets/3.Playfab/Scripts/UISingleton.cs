@@ -11,7 +11,6 @@ public class UISingleton : MonoBehaviour {
             return;
         }
         instance = this;
-        DontDestroyOnLoad(this);
         IntializeUI();
     }
 
