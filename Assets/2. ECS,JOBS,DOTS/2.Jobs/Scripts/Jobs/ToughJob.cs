@@ -1,7 +1,7 @@
 ﻿using Unity.Jobs;
 using UnityEngine;
 using Unity.Burst;
-[BurstCompile]
+// [BurstCompile]
 public struct ToughJob : IJob
 {
     public int numberToSquareRoot;
