@@ -8,7 +8,14 @@ public class PlayfabAuth : MonoBehaviour {
     private string userEmail;
     private string userPassword;
     private string username;
-    [SerializeField] private PlayfabMobileAuth playFabMobileAuth;
+    private PlayfabMobileAuth playFabMobileAuth;
+    private PlayerStats playerStats;
+
+    private void Awake() {
+        //Make Sure these are on the playfabGO
+        playFabMobileAuth = GetComponent<PlayfabMobileAuth>();
+        playerStats = GetComponent<PlayerStats>();
+    }
 
     public void Start() {
         // PlayerPrefs.DeleteAll();
@@ -44,6 +51,7 @@ public class PlayfabAuth : MonoBehaviour {
         Debug.Log("Login Success");
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
+
         UISingleton.instance.loginPanel.SetActive(false);
         UISingleton.instance.logoutButton.SetActive(true);
         UISingleton.instance.linkMobileToAccountButton.SetActive(false);

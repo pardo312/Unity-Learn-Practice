@@ -8,6 +8,12 @@ public class PlayfabMobileAuth : MonoBehaviour {
     private string userEmailMobile;
     private string userPasswordMobile;
     private string usernameMobile;
+    private PlayerStats playerStats;
+
+    private void Awake() {
+        //Make Sure these are on the playfabGO
+        playerStats = GetComponent<PlayerStats>();
+    }
 
     public void MobileAuthentication() {
 
