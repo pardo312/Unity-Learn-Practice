@@ -1,6 +1,7 @@
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.Json;
 using System.Collections.Generic;
 public class PlayerStats : MonoBehaviour {
 
@@ -23,20 +24,19 @@ public class PlayerStats : MonoBehaviour {
         error => { Debug.LogError(error.GenerateErrorReport()); });
     }
 
-public void GetStats() {
-    PlayFabClientAPI.GetPlayerStatistics(
-        new GetPlayerStatisticsRequest(),
-        OnGetStatistics,
-        error => Debug.LogError(error.GenerateErrorReport())
-    );
-}
+    public void GetStats() {
+        PlayFabClientAPI.GetPlayerStatistics(
+            new GetPlayerStatisticsRequest(),
+            OnGetStatistics,
+            error => Debug.LogError(error.GenerateErrorReport())
+        );
+    }
 
-#endregion
+    #endregion
 
-public void OnGetStatistics(GetPlayerStatisticsResult result) {
+    public void OnGetStatistics(GetPlayerStatisticsResult result) {
     Debug.Log("Received the following Statistics:" + result.Statistics.Count);
     foreach (var eachStat in result.Statistics){
-        Debug.Log("Statistic (" + eachStat.StatisticName + "): " + eachStat.Value);
         switch(eachStat.StatisticName){
             case "PlayerHealth":
                 playerHealth = eachStat.Value;
@@ -53,6 +53,31 @@ public void OnGetStatistics(GetPlayerStatisticsResult result) {
         }
     }
 }
+
+// Build the request object and access the API
+public void StartCloudHelloWorld()
+{
+    PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest()
+    {
+        FunctionName = "UpdatePlayerStats", // Arbitrary function name (must exist in your uploaded cloud.js file)
+        FunctionParameter = new { playerHealth = this.playerHealth, playerLevel = this.playerLevel, maxScore = this.maxScore }, // The parameter provided to your function
+        GeneratePlayStreamEvent = true, // Optional - Shows this event in PlayStream
+    }, OnCloudHelloWorld, OnErrorShared);
+}
+private void OnCloudHelloWorld(ExecuteCloudScriptResult result) {
+    // CloudScript returns arbitrary results, so you have to evaluate them one step and one parameter at a time
+    Debug.Log(PlayFabSimpleJson.SerializeObject(result.FunctionResult));
+    JsonObject jsonResult = (JsonObject)result.FunctionResult;
+    object messageValue;
+    jsonResult.TryGetValue("messageValue", out messageValue); // note how "messageValue" directly corresponds to the JSON values set in CloudScript
+    Debug.Log((string)messageValue);
+}
+
+private static void OnErrorShared(PlayFabError error)
+{
+    Debug.Log(error.GenerateErrorReport());
+}
+
 
 
 }
