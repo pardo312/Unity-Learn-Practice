@@ -8,18 +8,12 @@ public class PlayfabMobileAuth : MonoBehaviour {
     private string userEmailMobile;
     private string userPasswordMobile;
     private string usernameMobile;
-    private PlayerStats playerStats;
-
-    private void Awake() {
-        //Make Sure these are on the playfabGO
-        playerStats = GetComponent<PlayerStats>();
-    }
 
     public void MobileAuthentication() {
 
 #if UNITY_ANDROID
         var requestAndroid = new LoginWithAndroidDeviceIDRequest { AndroidDeviceId = ReturnMobileID(), CreateAccount = true };
-        PlayFabClientAPI.LoginWithAndroidDeviceID(requestAndroid, OnLoginSuccessMobile, OnLoginFailureMobile);
+        PlayFabClientAPI.LoginWithAndroidDeviceID(requestAndroid, OnLoginSuccessMobile, LogPlayFabError);
 #endif
 
 #if UNITY_IOS
@@ -44,15 +38,21 @@ public class PlayfabMobileAuth : MonoBehaviour {
         Debug.Log("Account Linked Succesfull!");
         PlayerPrefs.SetString("EMAIL", userEmailMobile);
         PlayerPrefs.SetString("PASSWORD", userPasswordMobile);
+        
+        UpdateDisplayName();
         UISingleton.instance.loginPanel.SetActive(false);
         UISingleton.instance.logoutButton.SetActive(true);
     }
+    private void UpdateDisplayName(){
+        var requestUpdateDisplayName = new UpdateUserTitleDisplayNameRequest{DisplayName = usernameMobile};
+        PlayFabClientAPI.UpdateUserTitleDisplayName(requestUpdateDisplayName, OnDisplayNameSuccess, LogPlayFabError);
 
-    private void OnLoginFailureMobile(PlayFabError error) {
-        Debug.LogError(error.GenerateErrorReport());
+    }
+    private void OnDisplayNameSuccess(UpdateUserTitleDisplayNameResult result){
+        Debug.Log("Display Name: " + result.DisplayName);
     }
 
-    private void OnRegisterFailureMobile(PlayFabError error) {
+    private void LogPlayFabError(PlayFabError error) {
         Debug.LogError(error.GenerateErrorReport());
     }
 
@@ -67,7 +67,7 @@ public class PlayfabMobileAuth : MonoBehaviour {
             Password = userPasswordMobile,
             Username = usernameMobile
         };
-        PlayFabClientAPI.AddUsernamePassword(LinkAccountRequest, OnLinkAccountSuccess, OnRegisterFailureMobile);
+        PlayFabClientAPI.AddUsernamePassword(LinkAccountRequest, OnLinkAccountSuccess, LogPlayFabError);
     }
 
     public void OpenLinkAccountPanel() {

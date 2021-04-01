@@ -33,18 +33,26 @@ public class PlayfabAuth : MonoBehaviour {
             playFabMobileAuth.MobileAuthentication();
         }
     }
+
     #region LoginRegisterCallbacks
 
     private void OnRegisterSuccess(RegisterPlayFabUserResult result) {
         Debug.Log("Register Success");
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
+
+        UpdateDisplayName();
         UISingleton.instance.loginPanel.SetActive(false);
         UISingleton.instance.logoutButton.SetActive(true);
     }
 
-    private void OnRegisterFailure(PlayFabError error) {
-        Debug.LogError(error.GenerateErrorReport());
+    private void UpdateDisplayName(){
+        var requestUpdateDisplayName = new UpdateUserTitleDisplayNameRequest{DisplayName = username};
+        PlayFabClientAPI.UpdateUserTitleDisplayName(requestUpdateDisplayName, OnDisplayNameSuccess, LogPlayFabError);
+
+    }
+    private void OnDisplayNameSuccess(UpdateUserTitleDisplayNameResult result){
+        Debug.Log("Display Name: " + result.DisplayName);
     }
 
     private void OnLoginSuccess(LoginResult result) {
@@ -64,9 +72,12 @@ public class PlayfabAuth : MonoBehaviour {
             Password = userPassword,
             Username = username
         };
-        PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, OnRegisterFailure);
+        PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, LogPlayFabError);
     }
 
+    private void LogPlayFabError(PlayFabError error){
+        Debug.LogError(error.GenerateErrorReport());
+    }
     #endregion
 
     #region OnClickMethods
