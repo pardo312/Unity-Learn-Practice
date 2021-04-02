@@ -5,10 +5,6 @@ using PlayFab;
 using PlayFab.ClientModels;
 
 public class PlayfabMobileAuth : MonoBehaviour {
-    private string userEmailMobile;
-    private string userPasswordMobile;
-    private string usernameMobile;
-
     public void MobileAuthentication() {
 
 #if UNITY_ANDROID
@@ -31,25 +27,19 @@ public class PlayfabMobileAuth : MonoBehaviour {
 
     private void OnLoginSuccessMobile(LoginResult result) {
         Debug.Log("Login Success Mobile");
+        PlayfabSingleton.instance.playFabID = result.PlayFabId;
         UISingleton.instance.loginPanel.SetActive(false);
     }
     
     private void OnLinkAccountSuccess(AddUsernamePasswordResult result) {
         Debug.Log("Account Linked Succesfull!");
-        PlayerPrefs.SetString("EMAIL", userEmailMobile);
-        PlayerPrefs.SetString("PASSWORD", userPasswordMobile);
+        PlayerPrefs.SetString("EMAIL", PlayfabSingleton.instance.userEmail);
+        PlayerPrefs.SetString("PASSWORD", PlayfabSingleton.instance.userPassword);
         
-        UpdateDisplayName();
+        PlayfabSingleton.instance.OnLoginSuccess();
+
         UISingleton.instance.loginPanel.SetActive(false);
         UISingleton.instance.logoutButton.SetActive(true);
-    }
-    private void UpdateDisplayName(){
-        var requestUpdateDisplayName = new UpdateUserTitleDisplayNameRequest{DisplayName = usernameMobile};
-        PlayFabClientAPI.UpdateUserTitleDisplayName(requestUpdateDisplayName, OnDisplayNameSuccess, LogPlayFabError);
-
-    }
-    private void OnDisplayNameSuccess(UpdateUserTitleDisplayNameResult result){
-        Debug.Log("Display Name: " + result.DisplayName);
     }
 
     private void LogPlayFabError(PlayFabError error) {
@@ -63,9 +53,9 @@ public class PlayfabMobileAuth : MonoBehaviour {
     public void OnClickLinkAccountButton() {
         var LinkAccountRequest = new AddUsernamePasswordRequest
         {
-            Email = userEmailMobile,
-            Password = userPasswordMobile,
-            Username = usernameMobile
+            Email = PlayfabSingleton.instance.userEmail,
+            Password = PlayfabSingleton.instance.userPassword,
+            Username = PlayfabSingleton.instance.userName
         };
         PlayFabClientAPI.AddUsernamePassword(LinkAccountRequest, OnLinkAccountSuccess, LogPlayFabError);
     }
@@ -74,22 +64,6 @@ public class PlayfabMobileAuth : MonoBehaviour {
         //Faltaria boton de devolverse en caso de que no quiera linkear la cuenta
         UISingleton.instance.logoutButton.SetActive(false);
         UISingleton.instance.linkMobileToAccountPanel.SetActive(true);
-    }
-    
-    #endregion
-
-    #region SetUserData
-
-    public void SetUserEmailMobile(string emailIn) {
-        userEmailMobile = emailIn;
-    }
-
-    public void SetUserPasswordMobile(string passwordIn) {
-        userPasswordMobile = passwordIn;
-    }
-
-    public void SetUsernameMobile(string usernameIn) {
-        usernameMobile = usernameIn;
     }
     
     #endregion

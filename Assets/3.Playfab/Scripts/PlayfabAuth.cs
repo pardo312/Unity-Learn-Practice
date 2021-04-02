@@ -5,9 +5,6 @@ using PlayFab;
 using PlayFab.ClientModels;
 
 public class PlayfabAuth : MonoBehaviour {
-    private string userEmail;
-    private string userPassword;
-    private string username;
     private PlayfabMobileAuth playFabMobileAuth;
     private PlayerStats playerStats;
 
@@ -24,8 +21,8 @@ public class PlayfabAuth : MonoBehaviour {
         }
 
         if (PlayerPrefs.HasKey("EMAIL")) {
-            userEmail = PlayerPrefs.GetString("EMAIL");
-            userPassword = PlayerPrefs.GetString("PASSWORD");
+            PlayfabSingleton.instance.userEmail = PlayerPrefs.GetString("EMAIL");
+            PlayfabSingleton.instance.userPassword = PlayerPrefs.GetString("PASSWORD");
             var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
             PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
         } else {
@@ -38,28 +35,22 @@ public class PlayfabAuth : MonoBehaviour {
 
     private void OnRegisterSuccess(RegisterPlayFabUserResult result) {
         Debug.Log("Register Success");
-        PlayerPrefs.SetString("EMAIL", userEmail);
-        PlayerPrefs.SetString("PASSWORD", userPassword);
+        PlayerPrefs.SetString("EMAIL", PlayfabSingleton.instance.userEmail);
+        PlayerPrefs.SetString("PASSWORD", PlayfabSingleton.instance.userPassword);
 
-        UpdateDisplayName();
+        PlayfabSingleton.instance.playFabID = result.PlayFabId;
+        PlayfabSingleton.instance.OnLoginSuccess();
+
         UISingleton.instance.loginPanel.SetActive(false);
         UISingleton.instance.logoutButton.SetActive(true);
     }
 
-    private void UpdateDisplayName(){
-        var requestUpdateDisplayName = new UpdateUserTitleDisplayNameRequest{DisplayName = username};
-        PlayFabClientAPI.UpdateUserTitleDisplayName(requestUpdateDisplayName, OnDisplayNameSuccess, LogPlayFabError);
-
-    }
-    private void OnDisplayNameSuccess(UpdateUserTitleDisplayNameResult result){
-        Debug.Log("Display Name: " + result.DisplayName);
-    }
-
     private void OnLoginSuccess(LoginResult result) {
         Debug.Log("Login Success");
-        PlayerPrefs.SetString("EMAIL", userEmail);
-        PlayerPrefs.SetString("PASSWORD", userPassword);
+        PlayerPrefs.SetString("EMAIL", PlayfabSingleton.instance.userEmail);
+        PlayerPrefs.SetString("PASSWORD", PlayfabSingleton.instance.userPassword);
 
+        PlayfabSingleton.instance.playFabID = result.PlayFabId;
         UISingleton.instance.loginPanel.SetActive(false);
         UISingleton.instance.logoutButton.SetActive(true);
         UISingleton.instance.linkMobileToAccountButton.SetActive(false);
@@ -68,9 +59,9 @@ public class PlayfabAuth : MonoBehaviour {
     private void OnLoginFailure(PlayFabError error) {
         var registerRequest = new RegisterPlayFabUserRequest
         {
-            Email = userEmail,
-            Password = userPassword,
-            Username = username
+            Email = PlayfabSingleton.instance.userEmail,
+            Password = PlayfabSingleton.instance.userPassword,
+            Username = PlayfabSingleton.instance.userName
         };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, LogPlayFabError);
     }
@@ -84,8 +75,8 @@ public class PlayfabAuth : MonoBehaviour {
     public void OnClickLogin() {
         var request = new LoginWithEmailAddressRequest
         {
-            Email = userEmail,
-            Password = userPassword
+            Email = PlayfabSingleton.instance.userEmail,
+            Password = PlayfabSingleton.instance.userPassword
         };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
@@ -96,19 +87,4 @@ public class PlayfabAuth : MonoBehaviour {
         UISingleton.instance.logoutButton.SetActive(false);
     }
     #endregion
-
-    #region GetUserData
-    public void GetUserEmail(string emailIn) {
-        userEmail = emailIn;
-    }
-
-    public void GetUserPassword(string passwordIn) {
-        userPassword = passwordIn;
-    }
-
-    public void GetUsername(string usernameIn) {
-        username = usernameIn;
-    }
-    #endregion
-
 }

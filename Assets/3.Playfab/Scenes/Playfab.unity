@@ -1102,9 +1102,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayFabLogin, ScriptsPlayfab
-        m_MethodName: GetUserEmail
+      - m_Target: {fileID: 2036803186}
+        m_TargetAssemblyTypeName: PlayfabSingleton, ScriptsPlayfab
+        m_MethodName: SetUserEmail
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2063,9 +2063,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2036803181}
-        m_TargetAssemblyTypeName: PlayfabMobileAuth, ScriptsPlayfab
-        m_MethodName: SetUserEmailMobile
+      - m_Target: {fileID: 2036803186}
+        m_TargetAssemblyTypeName: PlayfabSingleton, ScriptsPlayfab
+        m_MethodName: SetUserEmail
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3332,9 +3332,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2036803181}
-        m_TargetAssemblyTypeName: PlayfabMobileAuth, ScriptsPlayfab
-        m_MethodName: SetUsernameMobile
+      - m_Target: {fileID: 2036803186}
+        m_TargetAssemblyTypeName: PlayfabSingleton, ScriptsPlayfab
+        m_MethodName: SetUsername
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4271,9 +4271,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayFabLogin, ScriptsPlayfab
-        m_MethodName: GetUserPassword
+      - m_Target: {fileID: 2036803186}
+        m_TargetAssemblyTypeName: PlayfabSingleton, ScriptsPlayfab
+        m_MethodName: SetUserPassword
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4869,9 +4869,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2036803181}
-        m_TargetAssemblyTypeName: PlayfabMobileAuth, ScriptsPlayfab
-        m_MethodName: SetUserPasswordMobile
+      - m_Target: {fileID: 2036803186}
+        m_TargetAssemblyTypeName: PlayfabSingleton, ScriptsPlayfab
+        m_MethodName: SetUserPassword
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5211,9 +5211,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayFabLogin, ScriptsPlayfab
-        m_MethodName: GetUsername
+      - m_Target: {fileID: 2036803186}
+        m_TargetAssemblyTypeName: PlayfabSingleton, ScriptsPlayfab
+        m_MethodName: SetUsername
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5808,6 +5808,8 @@ GameObject:
   - component: {fileID: 2036803181}
   - component: {fileID: 2036803184}
   - component: {fileID: 2036803185}
+  - component: {fileID: 2036803186}
+  - component: {fileID: 2036803187}
   m_Layer: 0
   m_Name: Playfab
   m_TagString: Untagged
@@ -5878,6 +5880,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77526f751a75f0340b906595c0740f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2036803186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036803180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d835bd9fd908b6448bc4d97488a5d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playFabID: 
+  displayName: Jiufen
+  userName: 
+  userEmail: 
+  userPassword: 
+--- !u!114 &2036803187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036803180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c72a473b3a0464bb17d68ffdd5eda7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2037319673
