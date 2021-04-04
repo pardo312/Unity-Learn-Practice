@@ -33,6 +33,7 @@ public class PlayfabSingleton : MonoBehaviour {
             UpdateDisplayName();
         }
     }
+
     private void UpdateDisplayName(){
         if(displayName!= ""){
             var requestUpdateDisplayName = new UpdateUserTitleDisplayNameRequest{DisplayName = displayName};
@@ -42,9 +43,8 @@ public class PlayfabSingleton : MonoBehaviour {
             var requestUpdateDisplayName = new UpdateUserTitleDisplayNameRequest{DisplayName = userName};
             PlayFabClientAPI.UpdateUserTitleDisplayName(requestUpdateDisplayName, OnDisplayNameSuccess, LogPlayFabError);
         }
-
-
     }
+
     private void OnDisplayNameSuccess(UpdateUserTitleDisplayNameResult result){
         Debug.Log("Display Name: " + result.DisplayName);
     }
