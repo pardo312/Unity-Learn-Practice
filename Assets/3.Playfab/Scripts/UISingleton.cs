@@ -21,6 +21,7 @@ public class UISingleton : MonoBehaviour {
     [HideInInspector] public GameObject logoutButton;
     [HideInInspector] public GameObject linkMobileToAccountPanel;
     [HideInInspector] public GameObject linkMobileToAccountButton;
+    [HideInInspector] public GameObject addFriendPanel;
 
     void IntializeUI() {
         parentCanvas = GameObject.Find("Canvas");
@@ -28,5 +29,6 @@ public class UISingleton : MonoBehaviour {
         logoutButton = parentCanvas.transform.Find("LogOut").gameObject;
         linkMobileToAccountPanel = parentCanvas.transform.Find("AddAndroidLoginPanel").gameObject;
         linkMobileToAccountButton = parentCanvas.transform.Find("ButtonMobileToAccountButton").gameObject;
+        addFriendPanel = parentCanvas.transform.Find("AddFriendPanel").gameObject;
     }
 }

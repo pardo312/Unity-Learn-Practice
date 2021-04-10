@@ -7,6 +7,9 @@ public class PlayfabData : MonoBehaviour {
     private void Start() {
         PlayfabSingleton.instance.LoginSuccess += GetUserData;
     }
+    private void OnDisable() {
+        PlayfabSingleton.instance.LoginSuccess -= GetUserData;               
+    }
     public static void SetUserData() {
         PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest() {
             Data = new Dictionary<string, string>() {
@@ -41,8 +44,5 @@ public class PlayfabData : MonoBehaviour {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());
         });
-    }
-    private void OnDisable() {
-        PlayfabSingleton.instance.LoginSuccess -= GetUserData;
     }
 }
