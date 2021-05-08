@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/3.Playfab/Scenes/Playfab.unity
     guid: 6aef1611190304d4498652b2e568b3ef
+  - enabled: 1
+    path: Assets/5. Mutliplayer/Mirror/Scenes/Lobby.unity
+    guid: 870d9fa2a70393a41ae4cbfac1b6c1f6
+  - enabled: 1
+    path: Assets/5. Mutliplayer/Mirror/Scenes/GameplayMultiplayerMirror.unity
+    guid: 403ca0ec9237f96469f560c5b2a856b6
   m_configObjects: {}

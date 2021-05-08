@@ -153,9 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubePrefab: {fileID: 5569468213201176544, guid: 48c08da08e0fde84a8232d2a688ec467, type: 3}
-  size: 1
+  size: 5
   needForPreserveCubes: 0
-  shouldExpand: 1
+  shouldExpand: 0
   pool: []
 --- !u!4 &480306906
 Transform:
