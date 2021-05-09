@@ -4,8 +4,7 @@ using Mirror;
 using System;
 using TMPro;
 
-namespace MultiplayerMirror
-{
+namespace MultiplayerMirror {
     public class NetworkRoomPlayerLobby : NetworkBehaviour {
 
         [Header("UI")]
@@ -22,46 +21,43 @@ namespace MultiplayerMirror
 
 
         private bool isLeader;
-        public bool IsLeader{
-            set{
+        public bool IsLeader {
+            set {
                 isLeader = value;
                 startGameButton.gameObject.SetActive(value);
             }
         }
 
         private NetworkManagerLobby room;
-        private NetworkManagerLobby Room{
-            get{
-                if(room != null)
+        private NetworkManagerLobby Room {
+            get {
+                if (room != null)
                     return room;
                 return room = NetworkManager.singleton as NetworkManagerLobby;
             }
         }
 
-       private void UpdateDisplay() {
-            if(!isLocalPlayer){
-                foreach (var player in Room.RoomPlayers)
-                {
-                    if(player.isLocalPlayer){
+        private void UpdateDisplay() {
+            if (!hasAuthority) {
+                foreach (var player in Room.RoomPlayers) {
+                    if (player.hasAuthority) {
                         player.UpdateDisplay();
                         break;
                     }
-                    
                 }
+
                 return;
             }
 
-            for (int i = 0; i < playerNameTexts.Length; i++)
-            {
-                playerNameTexts[i].text = "Waiting For Players...";
+            for (int i = 0; i < playerNameTexts.Length; i++) {
+                playerNameTexts[i].text = "Waiting For Player...";
                 playerReadyTexts[i].text = string.Empty;
             }
 
-            for (int i = 0; i < Room.RoomPlayers.Count; i++)
-            {
+            for (int i = 0; i < Room.RoomPlayers.Count; i++) {
                 playerNameTexts[i].text = Room.RoomPlayers[i].DisplayName;
-                playerReadyTexts[i].text = Room.RoomPlayers[i].IsReady?
-                    "<color=green>Ready</color>":
+                playerReadyTexts[i].text = Room.RoomPlayers[i].IsReady ?
+                    "<color=green>Ready</color>" :
                     "<color=red>Not Ready</color>";
             }
         }
@@ -85,7 +81,7 @@ namespace MultiplayerMirror
         private void HandleReadyStatusChanged(System.Boolean oldValue, System.Boolean newValue) {
             UpdateDisplay();
         }
-        private  void HandleDisplayNameChanged(System.String oldValue, System.String newValue)  {
+        private void HandleDisplayNameChanged(System.String oldValue, System.String newValue) {
             UpdateDisplay();
         }
 
@@ -103,14 +99,14 @@ namespace MultiplayerMirror
 
         [Command]
         public void CmdStartGame() {
-            if(Room.RoomPlayers[0].connectionToClient != connectionToClient)
+            if (Room.RoomPlayers[0].connectionToClient != connectionToClient)
                 return;
 
             Room.StartGame();
         }
 
         public void HandleReadyToStart(bool readyToStart) {
-            if(!isLeader)
+            if (!isLeader)
                 return;
 
             startGameButton.interactable = readyToStart;

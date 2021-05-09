@@ -160,7 +160,7 @@ MonoBehaviour:
   serverTickRate: 30
   serverBatching: 1
   serverBatchInterval: 0
-  offlineScene: Assets/5. Mutliplayer/Mirror/Scenes/Lobby.unity
+  offlineScene: 
   onlineScene: Assets/5. Mutliplayer/Mirror/Scenes/Lobby.unity
   transport: {fileID: 48790192}
   networkAddress: localhost
@@ -175,7 +175,8 @@ MonoBehaviour:
   minPlayers: 2
   menuScene: Assets/5. Mutliplayer/Mirror/Scenes/Lobby.unity
   roomPlayerPrefab: {fileID: 2459112440079269011, guid: 1ecde104c4058b543952f90080363a56, type: 3}
-  gamePlayerPrefab: {fileID: 9038654198407534549, guid: 8fda59b72d0cbd048bae652d0f211b8f, type: 3}
+  networkGamePlayerPrefab: {fileID: 9038654198407534549, guid: 8fda59b72d0cbd048bae652d0f211b8f, type: 3}
+  playerSpawnSystem: {fileID: 7653312382026620679, guid: bad6f0520da178b46943a13a49fdd85f, type: 3}
 --- !u!114 &48790192
 MonoBehaviour:
   m_ObjectHideFlags: 0
